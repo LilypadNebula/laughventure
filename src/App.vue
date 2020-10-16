@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col items-center">
     <p class="text-3xl">Laughventure</p>
-    <div class="flex justify-around w-full">
+    <div class="flex justify-around w-full text-lg">
       <div class="flex flex-col items-center w-1/4">
         <input type="text" v-model="firstStudent.name">
         HP
@@ -23,12 +23,6 @@
     </div>
   </div>
 </template>
-
-<style>
-body{
-  @apply bg-blue-200;
-}
-</style>
 
 <script>
 import {onMounted, ref, reactive} from 'vue'
