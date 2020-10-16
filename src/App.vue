@@ -2,16 +2,23 @@
   <div class="flex flex-col items-center">
     <p class="text-3xl">Laughventure</p>
     <div class="flex justify-around w-full">
-      <div class="flex flex-col items-center">
-        <p>{{firstStudent.name}}</p>
-        <p>HP: {{firstStudent.hp}}</p>
-        <p>DPS: {{firstStudent.dps}}</p>
+      <div class="flex flex-col items-center w-1/4">
+        <input type="text" v-model="firstStudent.name">
+        HP
+        <input type="text" class="w-16" v-model="firstStudent.hp">
+        DPS
+        <input type="text" class="w-16" v-model="firstStudent.dps">
       </div>
-      <div>Winner</div>
-      <div class="flex flex-col items-center">
-        <p>{{secondStudent.name}}</p>
-        <p>HP: {{secondStudent.hp}}</p>
-        <p>DPS: {{secondStudent.dps}}</p>
+      <div class="text-center w-1/4">
+        <button @click="compete">Compete!</button>
+        <p class="text-xl">{{winner}}</p>
+      </div>
+      <div class="flex flex-col items-center w-1/4">
+        <input type="text" v-model="secondStudent.name">
+        HP
+        <input type="text" class="w-16" v-model="secondStudent.hp">
+        DPS
+        <input type="text" class="w-16" v-model="secondStudent.dps">
       </div>
     </div>
   </div>
@@ -32,20 +39,27 @@ export default {
     const nameList = ref([])
     const firstStudent = reactive({name: '', hp: 0, dps: 0})
     const secondStudent = reactive({name: '', hp: 0, dps: 0})
+    const winner = ref('')
 
     const randomNum = (max, min = 0) => {
-      return Math.floor(Math.random() * Math.floor(max)) + min
+      return Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min) + 1)) + Math.ceil(min)
     }
 
     const randomName = () => {
-      let num = randomNum(nameList.value.length)
+      let num = randomNum(nameList.value.length - 1)
       return nameList.value[num]
+    }
+
+    const compete = () => {
+      const first = Math.ceil(Math.abs(firstStudent.hp) / secondStudent.dps)
+      const second = Math.ceil(Math.abs(secondStudent.hp) / firstStudent.dps)
+      winner.value = first > second ? firstStudent.name : first === second ? 'Tie' : secondStudent.name
     }
 
     const randomizeStudent = (student) => {
       student.name = randomName()
-      student.hp = randomNum(50, 10)
-      student.dps = randomNum(8,3)
+      student.hp = randomNum(-50, -125)
+      student.dps = randomNum(9, 5)
     }
 
     onMounted(async () => {
@@ -56,7 +70,7 @@ export default {
       randomizeStudent(secondStudent)
     })
 
-    return {firstStudent, secondStudent}
+    return {firstStudent, secondStudent, winner, compete}
   }
 }
 </script>
