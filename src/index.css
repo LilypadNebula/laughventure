@@ -6,12 +6,9 @@
 
 @layer base {
   input {
-    @apply rounded p-2 border border-black w-1/2;
+    @apply rounded p-2 border border-black;
   }
-}
-
-@screen lg {
-  input {
-    @apply w-full;
+  button {
+    @apply rounded border shadow-md p-2 bg-white border-black my-4;
   }
 }
